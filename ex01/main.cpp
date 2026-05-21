@@ -4,6 +4,7 @@ int main()
 {
 	std::string	command;
 	int			exit;
+	PhoneBook	book;
 
 	exit = 0;
 	while (exit != 1)
@@ -14,8 +15,10 @@ int main()
 		std::cin >> command;
 		if (command == "EXIT")
 			exit = 1;
-		if (command == "ADD" || command == "SEARCH")
-			
+		if (command == "ADD")
+			book.add();
+		// if (command == "SEARCH")
+		// 	book.search();
 		if (command != "ADD" && command != "SEARCH" && command != "EXIT")
 		{
 			std::cout << "invalid command: " << command;
