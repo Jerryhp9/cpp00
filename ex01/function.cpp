@@ -1,5 +1,9 @@
 #include "PhoneBook.hpp"
 
+//:: - Scope Resolution Operator (identify and specify the identifier, class, variable or function belongs to)
+//<< - Insertion Operator (used with std::cout to send data to the output)
+//>> - Extraction Operator (used with std::cin to extract data from input stream into a variable)
+
 Contact	init_contacts(Contact contacts)
 {
 	contacts.phone_number = 0;
@@ -21,6 +25,8 @@ Contact	*find_empty_contact(Contact *contacts)
 	}
 	return (&contacts[0]);
 }
+
+//!find out why when entered non-integer characters into phone number the infinite loop happens
 
 void	PhoneBook::add()
 {
