@@ -2,13 +2,9 @@
 
 //:: - Scope Resolution Operator (identify and specify the identifier, class, variable or function belongs to)
 //<< - Insertion Operator (used with std::cout to send data to the output)
-//>> - Extraction Operator (used with std::cin to extract data from input stream into a variable)
-
-Contact	init_contacts(Contact contacts)
-{
-	contacts.phone_number = 0;
-	return (contacts);
-}
+//>> - Extraction Operator (used with std::cin to extract data from input stream into a variable),
+//      It can fail to extract and causes the cin to fail and leftover contents in the buffer 
+//std::string - is an object that has a dynamic size allocation
 
 Contact	*find_empty_contact(Contact *contacts)
 {
@@ -28,36 +24,71 @@ Contact	*find_empty_contact(Contact *contacts)
 
 //!find out why when entered non-integer characters into phone number the infinite loop happens
 
+// void	set_string(std::string string)
+// {
+// 	int		flag = 0;
+// 	size_t	i = 0;
+
+// 	while (!flag)
+// 	{
+		
+// 		while (i < string.length())
+// 		{
+// 			if (isspace(string[i]))
+// 			{
+// 				std::cout << "detected whitespaces, try again" << std::endl;
+// 				break;
+// 			}
+// 			i++;
+// 		}
+// 		if (i == string.length())
+// 			flag = 1;
+// 		else
+// 			std::cin >> string;
+// 	}
+
+// }
+
+void	set_string(std::string string)
+{
+	std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+	getline(std::cin, string);
+}
+
 void	PhoneBook::add()
 {
 	Contact	*ptr;
-	int		pnum;
 
-	pnum = 0;
-	for (int i = 0; i < 8; i++)
-		contacts[i] = init_contacts(contacts[i]);
 	ptr = find_empty_contact(contacts);
 	std::cout << "Input first name" << std::endl;
-	std::cin >> ptr->first_name;
+	std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+	getline(std::cin, ptr->first_name);
 	std::cout << "Input last name" << std::endl;
-	std::cin >> ptr->last_name;
+	std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+	getline(std::cin, ptr->last_name);
 	std::cout << "Input nickname" << std::endl;
-	std::cin >> ptr->nickname;
+	std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+	getline(std::cin, ptr->nickname);
 	std::cout << "Input phone number" << std::endl;
-	std::cin >> pnum;
-	if (std::isdigit(pnum) == 0)
-		ptr->phone_number = pnum;
-	else
+	int flag = 0;
+	while (!flag)
 	{
-		std::cout << "Required number as input" << std::endl;
-		std::cin >> pnum;
-		ptr->phone_number = pnum;
+		std::cin >> ptr->phone_number;
+		if (std::cin.fail())
+		{
+			std::cin.clear();
+			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+			std::cout << "Required number as input" << std::endl;
+			std::cin >> ptr->phone_number;
+		}
+		if (ptr->phone_number)
+			flag = 1;
 	}
-	// std::cout << "isdigit return " << std::isdigit(pnum) << std::endl;
 	std::cout << "Input darkest secret " << std::endl;
-	std::cin >> ptr->darkest_secret ;
+	std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+	getline(std::cin, ptr->darkest_secret);
 
-	for (int i = 0; i < 2; i++)
+	for (int i = 0; i < 3; i++)
 	{
 		std::cout << "first name: " << contacts[i].first_name << std::endl;
 		std::cout << "last name: " << contacts[i].last_name << std::endl;
