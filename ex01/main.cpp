@@ -13,18 +13,16 @@ int main()
 	PhoneBook	book;
 
 	exit = 0;
-	for (int i = 0; i < 8; i++)
+	for (int i = 0; i < list; i++)
 		book.contacts[i] = init_contacts(book.contacts[i]);
 	while (exit != 1)
 	{
-
 		std::cout << "---WELCOME TO MY PHONEBOOK---" << std::endl << std::endl;
 		std::cout << "Input commands (ADD, SEARCH, EXIT)" << std::endl;
 		std::cin >> command;
 		if (command == "EXIT")
 			exit = 1;
 		if (command == "ADD")
-
 			book.add();
 		// if (command == "SEARCH")
 		// 	book.search();
@@ -33,7 +31,8 @@ int main()
 			std::cout << "invalid command: " << command;
 			std::cout << ", try again" << std::endl;
 		}
-
+		else if (command.empty())
+			std::cout << "empty command, try again" << std::endl;
 	}
 	return (0);
 }

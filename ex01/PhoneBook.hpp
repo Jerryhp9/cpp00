@@ -3,6 +3,7 @@
 #include <iostream>
 #include <cctype>
 
+#define list 8
 class Contact {
 	public:
 		std::string	first_name;
@@ -14,7 +15,7 @@ class Contact {
 
 class PhoneBook {
 	public:
-		Contact contacts[8];
+		Contact contacts[3];
 	void	add();
 	// void	search();
 };

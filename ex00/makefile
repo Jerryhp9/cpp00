@@ -1,4 +1,4 @@
-CXX = c++
+CXX = g++
 CXXFLAGS = -g3 -Wall -Werror -Wextra -std=c++98
 NAME = megaphone
 RM = rm -f
