@@ -3,7 +3,7 @@ CXXFLAGS = -g3 -Wall -Werror -Wextra -std=c++98
 NAME = phonebook
 RM = rm -rf
 
-SRC = main.cpp function.cpp
+SRC = main.cpp add.cpp search.cpp
 
 OBJ = $(SRC:.cpp=.o)
 

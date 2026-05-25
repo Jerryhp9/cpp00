@@ -1,6 +1,7 @@
 #ifndef PHONEBOOK_HPP
 #include <limits>
 #include <iostream>
+#include <iomanip>
 #include <cctype>
 
 #define list 8
@@ -15,8 +16,9 @@ class Contact {
 
 class PhoneBook {
 	public:
-		Contact contacts[3];
-	void	add();
+		Contact contacts[8];
+	int	add();
+	int	search();
 	// void	search();
 };
 #endif

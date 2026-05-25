@@ -22,7 +22,7 @@ Contact	*find_empty_contact(Contact *contacts)
 	return (&contacts[0]);
 }
 
-void	set_string(std::string *string)
+int	set_string(std::string *string)
 {
 	size_t	i;
 	int	flag = 0;
@@ -31,13 +31,21 @@ void	set_string(std::string *string)
 	{
 		i = 0;
 		getline(std::cin, *string);
+		if (std::cin.eof())
+		{
+			std::cout << "Detected end of file, exiting" << std::endl;
+			return (1);
+		}
 		if (isspace((*string)[i]))
 		{
 			while (i < (*string).length() && isspace((*string)[i]))
 				i++;
 		}
 		if (i == (*string).length() || (*string).empty())
-				std::cout << "Empty input, try again" << std::endl;
+		{
+			std::cout << "Empty input, try again" << std::endl;
+			continue;
+		}
 		for (size_t j = 0; j < (*string).length(); j++)
 		{
 			if ((*string)[j] && isalnum((*string)[j]))
@@ -47,15 +55,21 @@ void	set_string(std::string *string)
 			}
 		}
 	}
+	return (0);
 }
 
-void	set_number(int *number)
+int	set_number(int *number)
 {
 	int flag = 0;
 
 	while (!flag)
 	{
 		std::cin >> *number;
+		if (std::cin.eof())
+		{
+			std::cout << "Detected end of file, exiting" << std::endl;
+			return (1);
+		}
 		if (std::cin.fail())
 		{
 			std::cin.clear();
@@ -66,33 +80,38 @@ void	set_number(int *number)
 		if (*number)
 			flag = 1;
 	}
+	return (0);
 }
 
-void	PhoneBook::add()
+int	PhoneBook::add()
 {
 	Contact	*ptr;
+	int		flag;
 
 	ptr = find_empty_contact(contacts);
 	std::cin.clear();
 	std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 	std::cout << "Input first name" << std::endl;
-	set_string(&ptr->first_name);
+	flag = set_string(&ptr->first_name);
+	if (flag == 1)
+		return (1);
 	std::cout << "Input last name" << std::endl;
-	set_string(&ptr->last_name);
+	flag = set_string(&ptr->last_name);
+	if (flag == 1)
+		return (1);
 	std::cout << "Input nickname" << std::endl;
-	set_string(&ptr->nickname);
+	flag = set_string(&ptr->nickname);
+	if (flag == 1)
+		return (1);
 	std::cout << "Input phone number" << std::endl;
-	set_number(&ptr->phone_number);
+	flag = set_number(&ptr->phone_number);
+	if (flag == 1)
+		return (1);
 	std::cin.clear();
 	std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 	std::cout << "Input darkest secret " << std::endl;
-	set_string(&ptr->darkest_secret);
-	// for (int i = 0; i < list; i++)
-	// {
-	// 	std::cout << "first name: " << contacts[i].first_name << std::endl;
-	// 	std::cout << "last name: " << contacts[i].last_name << std::endl;
-	// 	std::cout << "nickname: " << contacts[i].nickname << std::endl;
-	// 	std::cout << "phone number: " << contacts[i].phone_number << std::endl;
-	// 	std::cout << "darkest secret: " << contacts[i].darkest_secret << std::endl;
-	// }
+	flag = set_string(&ptr->darkest_secret);
+	if (flag == 1)
+		return (1);
+	return (0);
 }
