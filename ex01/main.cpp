@@ -40,7 +40,10 @@ int main()
 					break;
 			}
 			if (command == "SEARCH")
-				book.search();
+			{
+				if (book.search() == 1)
+					break;
+			}
 			if (command != "ADD" && command != "SEARCH" && command != "EXIT")
 			{
 				std::cout << "invalid command: " << command;

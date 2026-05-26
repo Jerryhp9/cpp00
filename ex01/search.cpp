@@ -2,28 +2,15 @@
 
 void	display_info(int index, Contact *cont)
 {
-	std::cout << "|"
+	std::cout << std::endl << "|-----";
 	std::cout << "information";
-	std::cout << "|" << std::endl;
-	std::cout << "|";
-	std::cout << std::setw(10);
-	std::cout << index;
-	std::cout << "|" << std::endl;
-	std::cout << "|";
-	std::cout << cont[index - 1].first_name;
-	std::cout << "|" << std::endl;
-	std::cout << "|";
-	std::cout << cont[index - 1].last_name;
-	std::cout << "|" << std::endl;
-	std::cout << "|";
-	std::cout << cont[index - 1].nickname;
-	std::cout << "|" << std::endl;
-	std::cout << "|";
-	std::cout << cont[index - 1].phone_number;
-	std::cout << "|" << std::endl;
-	std::cout << "|";
-	std::cout << cont[index - 1].darkest_secret;
-	std::cout << "|" << std::endl;
+	std::cout << "------|" << std::endl;
+	std::cout << "index - " << index << std::endl;
+	std::cout << "first name - " << cont[index - 1].first_name << std::endl;
+	std::cout << "last name - " << cont[index - 1].last_name << std::endl;
+	std::cout << "nickname - " << cont[index - 1].nickname << std::endl;
+	std::cout << "phone number - " << cont[index - 1].phone_number << std::endl;
+	std::cout << "darkest secret - " << cont[index - 1].darkest_secret << std::endl << std::endl;
 }
 
 void	string_resize(std::string *str)
@@ -105,6 +92,7 @@ int	PhoneBook::search()
 			break;
 		print_details(i + 1, contacts[i]);
 	}
-	print_full_contact(contacts);
+	if (print_full_contact(contacts) == 1)
+		return (1);
 	return (0);
 }
