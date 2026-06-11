@@ -6,50 +6,55 @@
 //      It can fail to extract and causes the cin to fail and leftover contents in the buffer 
 //std::string - is an object that has a dynamic size allocation
 
-Contact	*find_empty_contact(Contact *contacts)
+Contact	* PhoneBook::find_empty_contact(Contact *contacts)
 {
 	int	i = 0;
 
+	// std::cout << pinpoint << std::endl;
 	while (i < list)
 	{
 		if (contacts[i].first_name.empty() && contacts[i].last_name.empty()
 			&& contacts[i].nickname.empty()
-			&& contacts[i].phone_number == 0
+			&& contacts[i].phone_number.empty()
 			&& contacts[i].darkest_secret.empty())
 			return (&contacts[i]);
 		i++;
 	}
-	return (&contacts[0]);
+	Contact *slot = &contacts[pinpoint];
+	pinpoint = (pinpoint + 1) % list;
+	return (slot);
 }
 
-int	set_string(std::string *string)
+int	set_string(std::string name, Contact *ptr)
 {
 	size_t	i;
 	int	flag = 0;
+	std::string temp;
 
 	while (!flag)
 	{
 		i = 0;
-		getline(std::cin, *string);
+		getline(std::cin, temp);
 		if (std::cin.eof())
 		{
 			std::cout << "Detected end of file, exiting" << std::endl;
 			return (1);
 		}
-		if (isspace((*string)[i]))
+		if (isspace(temp[i]))
 		{
-			while (i < (*string).length() && isspace((*string)[i]))
+			while (i < (temp.length() && isspace((temp[i]))))
 				i++;
 		}
-		if (i == (*string).length() || (*string).empty())
+		if (i == temp.length() || temp.empty())
 		{
 			std::cout << "Empty input, try again" << std::endl;
 			continue;
 		}
-		for (size_t j = 0; j < (*string).length(); j++)
+		for (size_t j = 0; j < temp.length(); j++)
 		{
-			if ((*string)[j] && isalnum((*string)[j]))
+			if (temp[j] && isalnum(temp[j]))
 			{
+				ptr->set_contact(name, ptr, temp);
 				flag = 1;
 				break;
 			}
@@ -58,59 +63,68 @@ int	set_string(std::string *string)
 	return (0);
 }
 
-int	set_number(int *number)
+bool	only_digits(std::string *str)
 {
-	int flag = 0;
-
-	while (!flag)
+	for (size_t i = 0; i < str->length(); i++)
 	{
-		std::cin >> *number;
-		if (std::cin.eof())
+		if (!isdigit((*str)[i]))
+		{
+			std::cout << "Required number as input, try again" << std::endl;
+			return (false);
+		}
+	}
+	return (true);
+}
+
+int	set_number(std::string name, Contact *cont)
+{
+	int	flag = 1;
+	std::string *number;
+
+	while (flag)
+	{
+		if (!getline(std::cin, *number))
 		{
 			std::cout << "Detected end of file, exiting" << std::endl;
 			return (1);
 		}
-		if (std::cin.fail())
+		if (only_digits(number) == true)
 		{
-			std::cin.clear();
-			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-			std::cout << "Required number as input, try again" << std::endl;
-			std::cin >> *number;
+			
+			flag = 0;
 		}
-		if (*number)
-			flag = 1;
 	}
 	return (0);
 }
 
 int	PhoneBook::add()
 {
+	Contact	*book;
 	Contact	*ptr;
 	int		flag;
 
-	ptr = find_empty_contact(contacts);
+	book = get_contacts();
+	ptr = find_empty_contact(book);
 	std::cin.clear();
 	std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 	std::cout << "Input first name" << std::endl;
-	flag = set_string(&ptr->first_name);
+	flag = set_string("first_name", ptr);
 	if (flag == 1)
 		return (1);
 	std::cout << "Input last name" << std::endl;
-	flag = set_string(&ptr->last_name);
+	flag = set_string("last_name", ptr);
 	if (flag == 1)
 		return (1);
 	std::cout << "Input nickname" << std::endl;
-	flag = set_string(&ptr->nickname);
+	flag = set_string("nickname", ptr);
 	if (flag == 1)
 		return (1);
 	std::cout << "Input phone number" << std::endl;
-	flag = set_number(&ptr->phone_number);
+	flag = set_number("phone_number", ptr);
 	if (flag == 1)
 		return (1);
-	std::cin.clear();
-	std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 	std::cout << "Input darkest secret " << std::endl;
-	flag = set_string(&ptr->darkest_secret);
+	flag = set_string("darkest_secret", ptr);
 	if (flag == 1)
 		return (1);
 	return (0);

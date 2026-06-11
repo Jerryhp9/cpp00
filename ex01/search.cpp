@@ -1,6 +1,6 @@
 #include "PhoneBook.hpp"
 
-void	display_info(int index, Contact *cont)
+void	display_info(long index, Contact *cont)
 {
 	std::cout << std::endl << "|-----";
 	std::cout << "information";
@@ -38,38 +38,52 @@ void	print_details(int index, Contact cont)
 	std::cout << "|" << std::endl;
 }
 
+bool	only_in_range(std::string index)
+{
+	if (!only_digits(&index))
+		return (false);
+	long value = strtol((&index)->c_str(), NULL, 10);
+	if (value < 1 || value > list)
+	{
+		std::cout << "index out of range, try again" << std::endl;
+		return (false);
+	}
+	return (true);
+}
+
 int	print_full_contact(Contact *cont)
 {
-	int	index = 0;
+	std::string	index;
 	int flag = 0;
 
 	std::cout << "Input index to entry" << std::endl;
+	std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 	while (!flag)
 	{
-		if (!(std::cin >> index) || std::cin.fail())
+		if (!getline(std::cin, index))
 		{
-			if (std::cin.eof())
-			{
-				std::cout << "Detected end of file, exiting" << std::endl;
+			std::cout << "Detected end of file, exiting" << std::endl;
 				return (1);
-			}
-			std::cin.clear();
-			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-			continue;
 		}
-		else
+		if (only_in_range(index))
 		{
-			if (index > 8 || index < 1)
-				std::cout << "index out of range, try again" << std::endl;
-			else
+			long value = strtol((&index)->c_str(), NULL, 10);
+			if (cont[value - 1].first_name.empty() && cont[value  - 1].last_name.empty()
+				&& cont[value].nickname.empty()
+				&& cont[value - 1].phone_number.empty()
+				&& cont[value - 1].darkest_secret.empty())
 			{
-				display_info(index, cont);
-				flag = 1;
+				std::cout << "contact is empty, please fill in the contact" << std::endl << std::endl;
+				break;
 			}
+			else
+				display_info(value, cont);
+			flag = 1;
 		}
 	}
 	return (0);
 }
+
 
 int	PhoneBook::search()
 {
@@ -85,9 +99,10 @@ int	PhoneBook::search()
 	std::cout << "|" << std::endl;
 	for (int i = 0; i < list; i++)
 	{
+		
 		if (contacts[i].first_name.empty() && contacts[i].last_name.empty()
 			&& contacts[i].nickname.empty()
-			&& contacts[i].phone_number == 0
+			&& contacts[i].phone_number.empty()
 			&& contacts[i].darkest_secret.empty())
 			break;
 		print_details(i + 1, contacts[i]);

@@ -1,11 +1,5 @@
 #include "PhoneBook.hpp"
 
-Contact	init_contacts(Contact contacts)
-{
-	contacts.phone_number = 0;
-	return (contacts);
-}
-
 int main()
 {
 	std::string	command;
@@ -13,8 +7,7 @@ int main()
 	PhoneBook	book;
 
 	exit = 0;
-	for (int i = 0; i < list; i++)
-		book.contacts[i] = init_contacts(book.contacts[i]);
+	book.setpinpoint(0);
 	while (exit != 1)
 	{
 		std::cout << "---WELCOME TO MY PHONEBOOK---" << std::endl << std::endl;
