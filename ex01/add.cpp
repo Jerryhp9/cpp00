@@ -10,19 +10,30 @@ Contact	* PhoneBook::find_empty_contact(Contact *contacts)
 {
 	int	i = 0;
 
-	// std::cout << pinpoint << std::endl;
+
 	while (i < list)
 	{
-		if (contacts[i].first_name.empty() && contacts[i].last_name.empty()
-			&& contacts[i].nickname.empty()
-			&& contacts[i].phone_number.empty()
-			&& contacts[i].darkest_secret.empty())
+		if (contacts[i].contact_is_empty(contacts[i]) == true)
 			return (&contacts[i]);
 		i++;
 	}
 	Contact *slot = &contacts[pinpoint];
 	pinpoint = (pinpoint + 1) % list;
 	return (slot);
+}
+
+void Contact::set_contact(std::string name, Contact *ptr, std::string result)
+{
+	if (name == "first_name")
+		ptr->first_name = result;
+	else if (name == "last_name")
+		ptr->last_name = result;
+	else if (name == "nickname")
+		ptr->nickname = result;
+	else if (name == "phone_number")
+		ptr->phone_number = result;
+	else if (name == "darkest_secret")
+		ptr->darkest_secret = result;
 }
 
 int	set_string(std::string name, Contact *ptr)
@@ -42,7 +53,7 @@ int	set_string(std::string name, Contact *ptr)
 		}
 		if (isspace(temp[i]))
 		{
-			while (i < (temp.length() && isspace((temp[i]))))
+			while (i < temp.length() && isspace((temp[i])))
 				i++;
 		}
 		if (i == temp.length() || temp.empty())
@@ -63,11 +74,11 @@ int	set_string(std::string name, Contact *ptr)
 	return (0);
 }
 
-bool	only_digits(std::string *str)
+bool	only_digits(std::string str)
 {
-	for (size_t i = 0; i < str->length(); i++)
+	for (size_t i = 0; i < str.length(); i++)
 	{
-		if (!isdigit((*str)[i]))
+		if (!isdigit(str[i]))
 		{
 			std::cout << "Required number as input, try again" << std::endl;
 			return (false);
@@ -79,18 +90,30 @@ bool	only_digits(std::string *str)
 int	set_number(std::string name, Contact *cont)
 {
 	int	flag = 1;
-	std::string *number;
+	std::string number;
+	size_t i;
 
 	while (flag)
 	{
-		if (!getline(std::cin, *number))
+		i = 0;
+		if (!getline(std::cin, number))
 		{
 			std::cout << "Detected end of file, exiting" << std::endl;
 			return (1);
 		}
+		if (isspace(number[i]))
+		{
+			while (i < number.length() && isspace((number[i])))
+				i++;
+		}
+		if (i == number.length() || number.empty())
+		{
+			std::cout << "Empty input, try again" << std::endl;
+			continue;
+		}
 		if (only_digits(number) == true)
 		{
-			
+			cont->set_contact(name, cont, number);
 			flag = 0;
 		}
 	}

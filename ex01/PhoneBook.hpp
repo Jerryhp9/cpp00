@@ -7,6 +7,7 @@
 #include <cstdlib>
 
 #define list 8
+
 class Contact {
 	private:
 		std::string	first_name;
@@ -15,18 +16,10 @@ class Contact {
 		std::string	phone_number;
 		std::string	darkest_secret;
 	public:
-		void set_contact(std::string name, Contact *ptr, std::string result){
-			if (name == "first_name")
-				ptr->first_name = result;
-			else if (name == "last_name")
-				ptr->last_name = result;
-			else if (name == "nickname")
-				ptr->nickname = result;
-			else if (name == "phone_number")
-				ptr->phone_number = result;
-			else if (name == "darkest_secret")
-				ptr->darkest_secret = result;
-		};
+		void	display_info(long index, Contact *cont);
+		void	print_details(int index, Contact cont);
+		bool	contact_is_empty(Contact cont);
+		void	set_contact(std::string name, Contact *ptr, std::string result);
 };
 
 class PhoneBook {
@@ -34,18 +27,17 @@ class PhoneBook {
 		int pinpoint;
 		Contact contacts[8];
 	public:
-		int	add();
-		int	search();
-		Contact *get_contacts(){
+		int			add();
+		int			search();
+		Contact		*find_empty_contact(Contact *contacts);
+		Contact		*get_contacts() {
 			return (contacts);
 		}
-		Contact	*find_empty_contact(Contact *contacts);
-		void	setpinpoint(int numb){
+		void		setpinpoint(int numb) {
 			pinpoint = numb;
 		}
-	// void	search();
 };
 
-bool	only_digits(std::string *str);
+bool	only_digits(std::string str);
 
 #endif
