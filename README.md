@@ -68,7 +68,3 @@ After building, run the generated executable (name depends on the exercise):
 - Follow exercise-specific constraints and expected output.
 - Prefer clear, modular class implementations.
 - Keep formatting and naming consistent across exercises.
-
-## License
-
-If you want, you can add a license section here (for example, MIT) once you've chosen one.
